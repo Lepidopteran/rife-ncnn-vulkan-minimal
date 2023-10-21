@@ -1,19 +1,8 @@
 # RIFE ncnn Vulkan
 
-![CI](https://github.com/nihui/rife-ncnn-vulkan/workflows/CI/badge.svg)
-![download](https://img.shields.io/github/downloads/nihui/rife-ncnn-vulkan/total.svg)
-
 ncnn implementation of RIFE, Real-Time Intermediate Flow Estimation for Video Frame Interpolation.
 
 rife-ncnn-vulkan uses [ncnn project](https://github.com/Tencent/ncnn) as the universal neural network inference framework.
-
-## [Download](https://github.com/nihui/rife-ncnn-vulkan/releases)
-
-Download Windows/Linux/MacOS Executable for Intel/AMD/Nvidia GPU
-
-**https://github.com/nihui/rife-ncnn-vulkan/releases**
-
-This package includes all the binaries and models required. It is portable, so no CUDA or PyTorch runtime environment is needed :)
 
 ## About RIFE
 
@@ -151,26 +140,17 @@ cmake --build . -j 4
 
 ## Sample Images
 
-### Original Image
-
-![origin0](images/0.png)
-![origin1](images/1.png)
-
 ### Interpolate with rife rife-anime model
 
 ```shell
 rife-ncnn-vulkan.exe -m models/rife-anime -0 0.png -1 1.png -o out.png
 ```
 
-![rife](images/out.png)
-
 ### Interpolate with rife rife-anime model + TTA-s
 
 ```shell
 rife-ncnn-vulkan.exe -m models/rife-anime -x -0 0.png -1 1.png -o out.png
 ```
-
-![rife](images/outx.png)
 
 ## Original RIFE Project
 
