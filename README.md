@@ -1,21 +1,38 @@
-# RIFE ncnn Vulkan
+# RIFE NCNN Vulkan Minimal
 
-ncnn implementation of RIFE, Real-Time Intermediate Flow Estimation for Video Frame Interpolation.
+This is a fork of the original [rife-ncnn-vulkan](https://github.com/nihui/rife-ncnn-vulkan) that removes the included models to reduce space.
 
-rife-ncnn-vulkan uses [ncnn project](https://github.com/Tencent/ncnn) as the universal neural network inference framework.
+## Build from Source
 
-## About RIFE
+1. Download and setup the Vulkan SDK from https://vulkan.lunarg.com/
+  - For Linux distributions, you can either get the essential build requirements from package manager
+```shell
+dnf install vulkan-headers vulkan-loader-devel
+```
+```shell
+apt-get install libvulkan-dev
+```
+```shell
+pacman -S vulkan-headers vulkan-icd-loader
+```
 
-RIFE (Real-Time Intermediate Flow Estimation for Video Frame Interpolation)
+2. Clone this project with all submodules
 
-https://github.com/hzwer/arXiv2020-RIFE
+```shell
+git clone https://github.com/nihui/rife-ncnn-vulkan.git
+cd rife-ncnn-vulkan
+git submodule update --init --recursive
+```
 
-Huang, Zhewei and Zhang, Tianyuan and Heng, Wen and Shi, Boxin and Zhou, Shuchang
+3. Build with CMake
+  - You can pass -DUSE_STATIC_MOLTENVK=ON option to avoid linking the vulkan loader library on MacOS
 
-https://rife-vfi.github.io
-
-https://arxiv.org/abs/2011.06294
-
+```shell
+mkdir build
+cd build
+cmake ../src
+cmake --build . -j 4
+```
 ## Usages
 
 Input two frame images, output one interpolated frame image.
@@ -89,68 +106,6 @@ If you encounter a crash or error, try upgrading your GPU driver:
 - Intel: https://downloadcenter.intel.com/product/80939/Graphics-Drivers
 - AMD: https://www.amd.com/en/support
 - NVIDIA: https://www.nvidia.com/Download/index.aspx
-
-## Build from Source
-
-1. Download and setup the Vulkan SDK from https://vulkan.lunarg.com/
-  - For Linux distributions, you can either get the essential build requirements from package manager
-```shell
-dnf install vulkan-headers vulkan-loader-devel
-```
-```shell
-apt-get install libvulkan-dev
-```
-```shell
-pacman -S vulkan-headers vulkan-icd-loader
-```
-
-2. Clone this project with all submodules
-
-```shell
-git clone https://github.com/nihui/rife-ncnn-vulkan.git
-cd rife-ncnn-vulkan
-git submodule update --init --recursive
-```
-
-3. Build with CMake
-  - You can pass -DUSE_STATIC_MOLTENVK=ON option to avoid linking the vulkan loader library on MacOS
-
-```shell
-mkdir build
-cd build
-cmake ../src
-cmake --build . -j 4
-```
-
-### Model
-
-| model | upstream version |
-|---|---|
-| rife | 1.2 |
-| rife-HD | 1.5 |
-| rife-UHD | 1.6 |
-| rife-anime | 1.8 |
-| rife-v2 | 2.0 |
-| rife-v2.3 | 2.3 |
-| rife-v2.4 | 2.4 |
-| rife-v3.0 | 3.0 |
-| rife-v3.1 | 3.1 |
-| rife-v4 | 4.0 |
-| rife-v4.6 | 4.6 |
-
-## Sample Images
-
-### Interpolate with rife rife-anime model
-
-```shell
-rife-ncnn-vulkan.exe -m models/rife-anime -0 0.png -1 1.png -o out.png
-```
-
-### Interpolate with rife rife-anime model + TTA-s
-
-```shell
-rife-ncnn-vulkan.exe -m models/rife-anime -x -0 0.png -1 1.png -o out.png
-```
 
 ## Original RIFE Project
 
