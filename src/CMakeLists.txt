@@ -1,6 +1,7 @@
 cmake_policy(SET CMP0091 NEW)
 set(CMAKE_POLICY_DEFAULT_CMP0091 NEW)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_BINARY_DIR}/bin>)
 
 project(rife-ncnn-vulkan)
 
@@ -258,13 +259,23 @@ rife_add_shader(warp_pack8.comp)
 
 add_custom_target(generate-spirv DEPENDS ${SHADER_SPV_HEX_FILES})
 
-add_executable(rife-ncnn-vulkan
+# Set the binary name based on the operating system
+if(WIN32)
+    set(BINARY_NAME "rife-ncnn-vulkan-pc-windows-msvc")
+elseif(APPLE)
+    set(BINARY_NAME "rife-ncnn-vulkan-apple-darwin")
+else()
+    set(BINARY_NAME "rife-ncnn-unknown-linux-gnu")
+endif()
+
+
+add_executable(${BINARY_NAME}
     main.cpp
     rife.cpp
     warp.cpp
 )
 
-add_dependencies(rife-ncnn-vulkan generate-spirv)
+add_dependencies(${BINARY_NAME} generate-spirv)
 
 set(RIFE_LINK_LIBRARIES ncnn webp ${Vulkan_LIBRARY})
 
@@ -290,4 +301,4 @@ if(USE_STATIC_MOLTENVK)
     )
 endif()
 
-target_link_libraries(rife-ncnn-vulkan ${RIFE_LINK_LIBRARIES})
+target_link_libraries(${BINARY_NAME} ${RIFE_LINK_LIBRARIES})
