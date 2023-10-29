@@ -261,11 +261,11 @@ add_custom_target(generate-spirv DEPENDS ${SHADER_SPV_HEX_FILES})
 
 # Set the binary name based on the operating system
 if(WIN32)
-    set(BINARY_NAME "rife-ncnn-vulkan-pc-windows-msvc")
+    set(BINARY_NAME "rife-ncnn-vulkan-x86_64-pc-windows-msvc")
 elseif(APPLE)
-    set(BINARY_NAME "rife-ncnn-vulkan-apple-darwin")
+    set(BINARY_NAME "rife-ncnn-vulkan-x86_64-apple-darwin")
 else()
-    set(BINARY_NAME "rife-ncnn-unknown-linux-gnu")
+    set(BINARY_NAME "rife-ncnn-vulkan-x86_64-unknown-linux-gnu")
 endif()
 
 
