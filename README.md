@@ -2,6 +2,8 @@
 
 This is a fork of the original [rife-ncnn-vulkan](https://github.com/nihui/rife-ncnn-vulkan) that removes the included models to reduce space.
 
+This repo is used to build rife-ncnn-vulkan for my tauri application.
+
 ## Build from Source
 
 1. Download and setup the Vulkan SDK from https://vulkan.lunarg.com/
