@@ -4,6 +4,7 @@
 #include <clocale>
 #include <queue>
 #include <stdio.h>
+#include <iostream>
 #include <vector>
 
 #if _WIN32
@@ -392,15 +393,7 @@ void *save(void *args) {
     }
 
     if (ret == 0) {
-      if (verbose) {
-#if _WIN32
-        fwprintf(stderr, L"%ls %ls %f -> %ls done\n", v.in0path.c_str(),
-                 v.in1path.c_str(), v.timestep, v.outpath.c_str());
-#else
-        fprintf(stderr, "%s %s %f -> %s done\n", v.in0path.c_str(),
-                v.in1path.c_str(), v.timestep, v.outpath.c_str());
-#endif
-      }
+      std::cout << v.in0path << " " << v.in1path << " " << v.timestep << " -> " << v.outpath << " done" << std::endl;
     }
   }
 
