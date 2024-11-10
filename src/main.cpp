@@ -393,7 +393,7 @@ void *save(void *args) {
     }
 
     if (ret == 0) {
-      std::cout << v.in0path << " " << v.in1path << " " << v.timestep << " -> " << v.outpath << " done" << std::endl;
+			std::cout << v.in0path.c_str() << " " << v.in1path.c_str() << " " << v.timestep << " -> " << v.outpath.c_str() << " done\n";
     }
   }
 
