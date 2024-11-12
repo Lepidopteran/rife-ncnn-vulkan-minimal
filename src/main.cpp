@@ -5,6 +5,7 @@
 #include <queue>
 #include <stdio.h>
 #include <iostream>
+#include <string>
 #include <vector>
 
 #if _WIN32
@@ -393,7 +394,21 @@ void *save(void *args) {
     }
 
     if (ret == 0) {
-			std::cout << v.in0path.c_str() << " " << v.in1path.c_str() << " " << v.timestep << " -> " << v.outpath.c_str() << " done\n";
+
+			std::string const in1path = std::string(v.in1path.begin(), v.in1path.end());
+			std::string const in0path = std::string(v.in0path.begin(), v.in0path.end());
+			std::string const outpath = std::string(v.outpath.begin(), v.outpath.end());
+
+			std::cout << "[info] [frame]: " 
+				<< in0path.substr(in0path.find_last_of("/\\") + 1) 
+				<< " " 
+				<< in1path.substr(in1path.find_last_of("/\\") + 1) 
+				<< " "
+				<< v.timestep
+				<< " -> " 
+				<< outpath.substr(outpath.find_last_of("/\\") + 1) 
+				<< "\n"
+				<< std::flush;
     }
   }
 
