@@ -2,6 +2,8 @@
 #define FILESYSTEM_UTILS_H
 
 #include <algorithm>
+#include <cctype>
+#include <sstream>
 #include <stdio.h>
 #include <string>
 #include <vector>
@@ -28,6 +30,41 @@ typedef std::string path_t;
 #define PATHSTR(X) X
 #endif
 
+static bool compare_path_natural(const path_t &a, const path_t &b) {
+  if (a.empty() || b.empty()) {
+    return a.empty() && !b.empty();
+  }
+
+  char charA = a[0];
+  char charB = b[0];
+
+  if (std::isdigit(charA) && !std::isdigit(charB)) {
+    return true;
+  } else if (!std::isdigit(charA) && std::isdigit(charB)) {
+    return false;
+  } else if (!std::isdigit(charA) && !std::isdigit(charB)) {
+    if (std::toupper(charA) == std::toupper(charB)) {
+      return compare_path_natural(a.substr(1), b.substr(1));
+    }
+    return (std::toupper(charA) < std::toupper(charB));
+  }
+
+  std::istringstream issa(a);
+  std::istringstream issb(b);
+  int ia, ib;
+  issa >> ia;
+  issb >> ib;
+  if (ia != ib) {
+    return ia < ib;
+  }
+
+  std::string anew, bnew;
+  std::getline(issa, anew);
+  std::getline(issb, bnew);
+
+  return compare_path_natural(anew, bnew);
+}
+
 #if _WIN32
 static bool path_is_directory(const path_t &path) {
   DWORD attr = GetFileAttributesW(path.c_str());
@@ -53,7 +90,7 @@ static int list_directory(const path_t &dirpath,
   }
 
   _wclosedir(dir);
-  std::sort(imagepaths.begin(), imagepaths.end());
+  std::sort(imagepaths.begin(), imagepaths.end(), compare_path_natural);
 
   return 0;
 }
@@ -84,7 +121,7 @@ static int list_directory(const path_t &dirpath,
   }
 
   closedir(dir);
-  std::sort(imagepaths.begin(), imagepaths.end());
+  std::sort(imagepaths.begin(), imagepaths.end(), compare_path_natural);
 
   return 0;
 }
